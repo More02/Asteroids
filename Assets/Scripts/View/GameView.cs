@@ -12,16 +12,6 @@ namespace View
         [SerializeField] private TMP_Text _finalScoreText;
         [SerializeField] private GameModel _gameModel;
 
-        // private void OnEnable()
-        // {
-        //     _gameModel.GameEndedEvent += ShowGameOverPanel;
-        // }
-        //
-        // private void OnDisable()
-        // {
-        //     _gameModel.GameEndedEvent -= ShowGameOverPanel;
-        // }
-
         public void UpdateScore(int score)
         {
             _scoreText.text = _scoreText.ToString();

@@ -13,25 +13,15 @@ namespace Controller
         [SerializeField] private GameModel _gameModel;
         [SerializeField] private GameController _gameController;
 
-        //public event Action HitEvent;
-
         private const float Thrust = 9.8f;
         private const float Drag = 0.1f;
+        public Vector2 ShipStartPosition { get; private set; }
         private Vector2 _velocity;
-
-        // private void OnEnable()
-        // {
-        //     HitEvent += _gameModel.EndGame;
-        // }
-        //
-        // private void OnDisable()
-        // {
-        //     HitEvent -= _gameModel.EndGame;
-        // }
 
         private void Start()
         {
             _shipModel = new ShipModel(transform.position);
+            ShipStartPosition = transform.position;
         }
         
         private void Update()

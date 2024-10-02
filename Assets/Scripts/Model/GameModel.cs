@@ -10,8 +10,6 @@ namespace Model
         private List<AsteroidModel> _asteroids { get; set; }
         private List<UfoModel> _ufos { get; set; }
         private List<ShardModel> _shards { get; set; }
-        
-       // public event Action GameEndedEvent;
 
         public GameModel()
         {
@@ -29,7 +27,6 @@ namespace Model
         public void EndGame()
         {
             SsGameOver = true;
-            //GameEndedEvent?.Invoke();
         }
 
         public void RestartGame()

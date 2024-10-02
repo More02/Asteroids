@@ -7,8 +7,10 @@ namespace Controller
 {
     public class GameController : MonoBehaviour
     {
-        [SerializeField] private GameModel _gameModel;
+        public GameModel _gameModel;
         [SerializeField] private GameView _gameView;
+        [SerializeField] private ShipModel _shipModel;
+        [SerializeField] private ShipController _shipController;
 
         private void Start()
         {
@@ -36,6 +38,8 @@ namespace Controller
         {
             _gameModel.RestartGame();
             _gameView.HideGameOverPanel();
+            _shipModel.Position = _shipController.ShipStartPosition;
+            transform.position = _shipModel.Position;
             StartCoroutine(GameLoop());
         }
     }
