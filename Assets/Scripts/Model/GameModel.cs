@@ -1,38 +1,41 @@
+using System;
 using System.Collections.Generic;
-using UnityEngine;
 
 namespace Model
 {
-    public class GameModel : MonoBehaviour
+    public class GameModel 
     {
-        private int _score { get; set; }
-        private static bool _isGameOver { get; set; }
+        public int Score { get; private set; }
+        public bool SsGameOver { get; private set; }
         private List<AsteroidModel> _asteroids { get; set; }
         private List<UfoModel> _ufos { get; set; }
         private List<ShardModel> _shards { get; set; }
+        
+       // public event Action GameEndedEvent;
 
         public GameModel()
         {
-            _score = 0;
-            _isGameOver = false;
+            Score = 0;
+            SsGameOver = false;
             _asteroids = new List<AsteroidModel>();
             _ufos = new List<UfoModel>();
         }
 
         public void AddScore(int point)
         {
-            _score += point;
+            Score += point;
         }
 
-        public static void EndGame()
+        public void EndGame()
         {
-            _isGameOver = true;
+            SsGameOver = true;
+            //GameEndedEvent?.Invoke();
         }
 
         public void RestartGame()
         {
-            _score = 0;
-            _isGameOver = false;
+            Score = 0;
+            SsGameOver = false;
             _asteroids.Clear();
             _ufos.Clear();
             _shards.Clear();

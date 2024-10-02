@@ -9,21 +9,43 @@ namespace Controller
     {
         [SerializeField] private ShipModel _shipModel;
         [SerializeField] private ShipView _shipView;
+        
+        [SerializeField] private GameModel _gameModel;
+        [SerializeField] private GameController _gameController;
 
-        private float _thrust = 9.8f;
-        private float _drag = 0.1f;         
-        private Vector2 _velocity;          
+        //public event Action HitEvent;
+
+        private const float Thrust = 9.8f;
+        private const float Drag = 0.1f;
+        private Vector2 _velocity;
+
+        // private void OnEnable()
+        // {
+        //     HitEvent += _gameModel.EndGame;
+        // }
+        //
+        // private void OnDisable()
+        // {
+        //     HitEvent -= _gameModel.EndGame;
+        // }
 
         private void Start()
         {
             _shipModel = new ShipModel(transform.position);
+        }
+        
+        private void Update()
+        {
+            HandleMovement();
+            _shipView.UpdatePosition(_shipModel.Position);
+            _shipView.UpdateRotation(_shipModel.Rotation);
         }
 
         private void HandleMovement()
         {
             if (Input.GetKey(KeyCode.W))
             {
-                var thrustForce = (Vector2)transform.up * _thrust * Time.deltaTime;
+                var thrustForce = (Vector2)transform.up * (Thrust * Time.deltaTime);
                 _velocity += thrustForce; 
                 _velocity = Vector2.ClampMagnitude(_velocity, _shipModel.Speed); 
                 
@@ -31,7 +53,7 @@ namespace Controller
             }
             else
             {
-                _velocity *= (1f - _drag);
+                _velocity *= (1f - Drag);
                 _shipModel.Position += _velocity * Time.deltaTime; 
             }
             
@@ -44,36 +66,37 @@ namespace Controller
             {
                 _shipModel.Rotation -= _shipModel.TurnSpeed * Time.deltaTime;
             }
-            
-            transform.rotation = Quaternion.Euler(0, 0, _shipModel.Rotation);
-            transform.position = _shipModel.Position;
 
-            // if (Input.GetButtonDown("Fire1"))
-            // {
-            //     _shipView.FireBullet(transform.position, transform.rotation);
-            // }
-            //
-            // if (Input.GetButtonDown("Fire2"))
-            // {
-            //     if (_shipModel.LaserShotsLimit > 0)
-            //     {
-            //         _shipModel.UseLaser();
-            //         _shipView.FireLaser(transform.position, transform.rotation);
-            //     }
-            // }
-            
-            HandleBoundaries();
+            Transform transformVar;
+            (transformVar = transform).rotation = Quaternion.Euler(0, 0, _shipModel.Rotation);
+            transformVar.position = _shipModel.Position;
         }
 
-        private void HandleBoundaries()
+        public void FireWithBullet()
         {
-            
+            var transform1 = transform;
+            _shipView.FireBullet(transform1.position, transform1.rotation);
         }
-        
+
+        public void FireWithLaser()
+        {
+            if (_shipModel.LaserShotsLimit > 0)
+            {
+                var transformVar = transform;
+                _shipModel.UseLaser();
+                _shipView.FireLaser(transformVar.position, transformVar.rotation);
+            }
+        }
+
         public void OnCollision()
         {
+            //инвок OnHit
             //GameModel.EndGame();
             //перенести OnHit? Добавить инвоки для ивентов из GameView
+            
+            //HitEvent?.Invoke();
+            _gameController.EndGame();
+
         }
     }
 }
