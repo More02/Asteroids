@@ -17,7 +17,8 @@ namespace Controller
         {
             var playerPosition = transform.position;
             playerPosition = WrapPosition(playerPosition);
-            transform.position = playerPosition;
+            ShipController.Instance.GetShipModel().Position = playerPosition;
+            ShipController.Instance.GetShipView().UpdatePosition(ShipController.Instance.GetShipModel().Position);
         }
 
         private Vector2 WrapPosition(Vector2 position)

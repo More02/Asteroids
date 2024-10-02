@@ -4,6 +4,12 @@ using View;
 
 namespace Controller
 {
+     // public enum ModelType
+     // {
+     //      Asteroid,
+     //      Ufo,
+     //      Shard
+     // }
      public class EnemySpawnerController : MonoBehaviour
      {
           [SerializeField] private int _asteroidQuantity;
@@ -11,10 +17,11 @@ namespace Controller
           [SerializeField] private bool _isMinQuantityNeeded;
 
           [SerializeField] private List<GameObject> _shardsList;
+         // [SerializeField] private ModelType _modelType;
           
           private Camera _mainCamera;
           private Vector2 _screenBounds;
-     
+
           private void OnEnable()
           {
                _mainCamera = Camera.main;
@@ -28,19 +35,14 @@ namespace Controller
                
                for (var i = 0; i < _asteroidQuantity; i++)
                {
-                    if (_shardsList.Count == 0)
-                    {
-                         continue;
-                    }
-                    else if (_shardsList.Count != 0)
+                    if (_shardsList.Count != 0)
                     {
                          var randomShard = Random.Range(0, _shardsList.Count);
                          _enemyView.SetEnemyPrefab(_shardsList[randomShard]);
                     }
                     var xPosRand = Random.Range(-_screenBounds.x, _screenBounds.x);
                     var yPosRand = Random.Range(-_screenBounds.y, _screenBounds.y);
-                    var rotationRand = Random.Range(0f, 360f);
-                    _enemyView.CreateEnemy(new Vector2(xPosRand, yPosRand), Quaternion.Euler(0f, rotationRand, 0f));
+                    _enemyView.CreateEnemy(new Vector2(xPosRand, yPosRand), Quaternion.identity);
                }
           }
      }

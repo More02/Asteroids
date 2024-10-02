@@ -7,15 +7,25 @@ namespace Controller
 {
     public class GameController : MonoBehaviour
     {
-        public GameModel _gameModel;
-        [SerializeField] private GameView _gameView;
-        [SerializeField] private ShipModel _shipModel;
-        [SerializeField] private ShipController _shipController;
+        private GameModel _gameModel;
+        private ShipModel _shipModel;
+
+        public static GameController Instance;
+
+        private void Awake()
+        {
+            Instance = this;
+            _gameModel = new GameModel();
+        }
+
+        public GameModel GetGameModel()
+        {
+            return _gameModel;
+        }
 
         private void Start()
         {
-            _gameModel = new GameModel();
-            _gameView.HideGameOverPanel();
+            GameView.Instance.HideGameOverPanel();
             StartCoroutine(GameLoop());
         }
 
@@ -23,23 +33,25 @@ namespace Controller
         {
             while (!_gameModel.SsGameOver)
             {
-                _gameView.UpdateScore(_gameModel.Score);
+                GameView.Instance.UpdateScore(_gameModel.Score);
                 yield return new WaitForSeconds(1);
             }
         }
 
         public void EndGame()
         {
+            Time.timeScale = 0;
             _gameModel.EndGame();
-            _gameView.ShowGameOverPanel(_gameModel.Score);
+            GameView.Instance.ShowGameOverPanel(_gameModel.Score);
         }
 
         public void Restart()
         {
+            Time.timeScale = 1;
             _gameModel.RestartGame();
-            _gameView.HideGameOverPanel();
-            _shipModel.Position = _shipController.ShipStartPosition;
-            transform.position = _shipModel.Position;
+            GameView.Instance.HideGameOverPanel();
+            ShipController.Instance.GetShipModel().Position = ShipController.Instance.ShipStartPosition;
+            ShipController.Instance.GetShipView().UpdatePosition(ShipController.Instance.GetShipModel().Position);
             StartCoroutine(GameLoop());
         }
     }

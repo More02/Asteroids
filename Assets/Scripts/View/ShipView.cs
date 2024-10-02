@@ -12,19 +12,21 @@ namespace View
             transform.position = newPosition;
         }
 
-        public void UpdateRotation(float newRotation)
+        public void UpdateRotation(Quaternion newRotation)
         {
-            transform.rotation = Quaternion.Euler(0, 0, newRotation);
+            transform.rotation = newRotation;
         }
 
-        public void FireBullet(Vector2 position, Quaternion rotation)
+        public void ShowBullet(Transform position)
         {
-            Instantiate(_bulletPrefab, position, rotation);
+            var pref = Instantiate(_bulletPrefab, position.position, Quaternion.identity);
+            pref.transform.right = position.up;
         }
 
-        public void FireLaser(Vector2 position, Quaternion rotation)
+        public void ShowLaser(Transform position)
         {
-            Instantiate(_laserPrefab, position, rotation);
+            var pref = Instantiate(_laserPrefab, position.position, Quaternion.identity);
+            pref.transform.right = position.up;
         }
     }
 }

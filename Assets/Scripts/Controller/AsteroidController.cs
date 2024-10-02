@@ -6,18 +6,15 @@ namespace Controller
 {
     public class AsteroidController : MonoBehaviour
     {
-        [SerializeField] private AsteroidModel _asteroidModel;
+        private AsteroidModel _asteroidModel;
         [SerializeField] private EnemyView _enemyView;
-        [SerializeField] private GameController _gameController;
-        [SerializeField] private ShipController _shipController;
-        [SerializeField] private EnemySpawnerController _enemySpawnerController;
         [SerializeField] private GameObject _shardsSpawnerHolder;
-     
 
         private void Start()
         {
             var speed = Random.Range(1f, 3f);
             _asteroidModel = new AsteroidModel(transform.position, speed);
+            GameController.Instance.GetGameModel()._asteroids.Add(_asteroidModel);
         }
 
         private void Update()
@@ -33,7 +30,7 @@ namespace Controller
                 Destroy(collision.gameObject);
                 SpawnShard();
                 Destroy(gameObject);
-                _gameController._gameModel.AddScore(10);
+                GameController.Instance.GetGameModel().AddScore(10);
             }
 
             if (collision.gameObject.CompareTag("Laser"))
@@ -43,7 +40,7 @@ namespace Controller
 
             if (collision.gameObject.CompareTag("Ship"))
             {
-                _shipController.OnCollision();
+                ShipController.Instance.OnCollision();
             }
         }
 

@@ -9,73 +9,82 @@ namespace Controller
     {
         [SerializeField] private ShipModel _shipModel;
         [SerializeField] private ShipView _shipView;
-        
-        [SerializeField] private GameModel _gameModel;
-        [SerializeField] private GameController _gameController;
 
+        private GameModel _gameModel;
         private const float Thrust = 9.8f;
-        private const float Drag = 0.1f;
-        public Vector2 ShipStartPosition { get; private set; }
         private Vector2 _velocity;
+
+        public static ShipController Instance;
+        public Vector2 ShipStartPosition { get; private set; }
+
+        private void OnEnable()
+        {
+            Instance = this;
+        }
+
+        public ShipModel GetShipModel()
+        {
+            return _shipModel;
+        }
+        
+        public ShipView GetShipView()
+        {
+            return _shipView;
+        }
 
         private void Start()
         {
-            _shipModel = new ShipModel(transform.position);
+            _shipModel = new ShipModel(transform.position, transform.rotation);
             ShipStartPosition = transform.position;
         }
         
         private void Update()
         {
             HandleMovement();
-            _shipView.UpdatePosition(_shipModel.Position);
-            _shipView.UpdateRotation(_shipModel.Rotation);
         }
 
         private void HandleMovement()
         {
-            if (Input.GetKey(KeyCode.W))
+            var horizontal = Input.GetAxis("Horizontal");
+            var vertical = Input.GetAxis("Vertical");
+            if (vertical > 0.1)
             {
                 var thrustForce = (Vector2)transform.up * (Thrust * Time.deltaTime);
                 _velocity += thrustForce; 
-                _velocity = Vector2.ClampMagnitude(_velocity, _shipModel.Speed); 
-                
-                _shipModel.Position += _velocity * Time.deltaTime; 
-            }
-            else
-            {
-                _velocity *= (1f - Drag);
-                _shipModel.Position += _velocity * Time.deltaTime; 
+                _velocity = Vector2.ClampMagnitude(_velocity, _shipModel.Speed);
             }
             
-            if (Input.GetKey(KeyCode.A))
+            _shipModel.Position += _velocity * Time.deltaTime;
+            if (_velocity.magnitude > 0.01)
+                _velocity -= _velocity * Time.deltaTime;
+            else
+                _velocity = Vector2.zero;
+            
+            
+            if (horizontal != 0)
             {
-                _shipModel.Rotation += _shipModel.TurnSpeed * Time.deltaTime;
+                _shipModel.Rotation *= Quaternion.Euler(0f, 0f, _shipModel.TurnSpeed * -horizontal * Time.deltaTime);
             }
 
-            if (Input.GetKey(KeyCode.D))
-            {
-                _shipModel.Rotation -= _shipModel.TurnSpeed * Time.deltaTime;
-            }
-
-            Transform transformVar;
-            (transformVar = transform).rotation = Quaternion.Euler(0, 0, _shipModel.Rotation);
-            transformVar.position = _shipModel.Position;
+            _shipView.UpdatePosition(_shipModel.Position);
+            _shipView.UpdateRotation(_shipModel.Rotation);
         }
 
         public void FireWithBullet()
         {
-            var transform1 = transform;
-            _shipView.FireBullet(transform1.position, transform1.rotation);
+            _shipView.ShowBullet(transform);
         }
 
         public void FireWithLaser()
         {
-            if (_shipModel.LaserShotsLimit > 0)
-            {
-                var transformVar = transform;
-                _shipModel.UseLaser();
-                _shipView.FireLaser(transformVar.position, transformVar.rotation);
-            }
+            if (_shipModel.LaserShotsLimit <= 0) return;
+            _shipModel.UseLaser();
+            _shipView.ShowLaser(transform);
+        }
+
+        private void OnCollisionEnter2D(Collision2D col)
+        {
+            OnCollision();
         }
 
         public void OnCollision()
@@ -85,7 +94,7 @@ namespace Controller
             //перенести OnHit? Добавить инвоки для ивентов из GameView
             
             //HitEvent?.Invoke();
-            _gameController.EndGame();
+            GameController.Instance.EndGame();
 
         }
     }

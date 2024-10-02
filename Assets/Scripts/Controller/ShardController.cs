@@ -6,14 +6,14 @@ namespace Controller
 {
     public class ShardController : MonoBehaviour
     {
-        [SerializeField] private ShardModel _shardModel;
+        private ShardModel _shardModel;
         [SerializeField] private EnemyView _enemyView;
-        [SerializeField] private ShipController _shipController;
 
         private void Start()
         {
             var speed = Random.Range(4f, 6f);
             _shardModel = new ShardModel(transform.position, speed);
+            GameController.Instance.GetGameModel()._shards.Add(_shardModel);
         }
 
         private void Update()
@@ -32,7 +32,7 @@ namespace Controller
 
             if (collision.gameObject.CompareTag("Ship"))
             {
-                _shipController.OnCollision();
+                ShipController.Instance.OnCollision();
             }
         }
     }

@@ -1,20 +1,22 @@
+using System;
 using UnityEngine;
 
 namespace Model
 {
+    [Serializable]
     public class ShipModel
     {
         public Vector2 Position { get; set; }
-        public float Rotation { get; set; }
-        
-        public float Speed { get; set; }
-        public float TurnSpeed { get; set; }
+        public Quaternion Rotation { get; set; }
+
+        public float Speed { get; set; } = 3;
+        public float TurnSpeed { get; set; } = 200;
         public int LaserShotsLimit { get; set; }
 
-        public ShipModel(Vector2 startPosition)
+        public ShipModel(Vector2 startPosition, Quaternion startRotation)
         {
             Position = startPosition;
-            Rotation = 0;
+            Rotation = startRotation;
             LaserShotsLimit = 4;
         }
 
