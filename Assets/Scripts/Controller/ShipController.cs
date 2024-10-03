@@ -41,6 +41,14 @@ namespace Controller
         private void Update()
         {
             HandleMovement();
+            // if (Input.GetMouseButton(0))
+            // {
+            //     FireWithBullet();
+            // }
+            // else if (Input.GetMouseButton(1))
+            // {
+            //     FireWithLaser();
+            // }
         }
 
         private void HandleMovement()
@@ -84,7 +92,10 @@ namespace Controller
 
         private void OnCollisionEnter2D(Collision2D col)
         {
+            if ((col.gameObject.CompareTag("Bullet")) || (col.gameObject.CompareTag("Laser"))) return;
+            
             OnCollision();
+            
         }
 
         public void OnCollision()

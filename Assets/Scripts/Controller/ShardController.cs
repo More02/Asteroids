@@ -11,8 +11,8 @@ namespace Controller
 
         private void Start()
         {
-            var speed = Random.Range(4f, 6f);
-            _shardModel = new ShardModel(transform.position, speed);
+            //var speed = Random.Range(4f, 6f);
+            _shardModel = new ShardModel(transform.position);
             GameController.Instance.GetGameModel()._shards.Add(_shardModel);
         }
 
@@ -28,6 +28,14 @@ namespace Controller
             {
                 Destroy(collision.gameObject);
                 Destroy(gameObject);
+                GameController.Instance.GetGameModel().AddScore(15);
+            }
+            
+            if (collision.gameObject.CompareTag("Laser"))
+            {
+               // Destroy(collision.gameObject);
+                Destroy(gameObject);
+                GameController.Instance.GetGameModel().AddScore(15);
             }
 
             if (collision.gameObject.CompareTag("Ship"))

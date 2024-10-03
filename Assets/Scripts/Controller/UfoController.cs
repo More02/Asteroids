@@ -8,10 +8,12 @@ namespace Controller
     {
         private UfoModel _ufoModel;
         [SerializeField] private EnemyView _enemyView;
+        [SerializeField] private PoolView _poolView;
 
         private void Start()
         {
-            _ufoModel = new UfoModel(transform.position, 2f); 
+            //var speed = 2f;
+            _ufoModel = new UfoModel(transform.position); 
             GameController.Instance.GetGameModel()._ufos.Add(_ufoModel);
         }
 
@@ -27,7 +29,16 @@ namespace Controller
             if (collision.gameObject.CompareTag("Bullet"))
             {
                 Destroy(collision.gameObject);
-                Destroy(gameObject);
+                //Destroy(gameObject);
+                _poolView.GetBulletPool().Release(gameObject);
+                GameController.Instance.GetGameModel().AddScore(20);
+            }
+            
+            if (collision.gameObject.CompareTag("Laser"))
+            {
+                //Destroy(collision.gameObject);
+                //Destroy(gameObject);
+                _poolView.GetBulletPool().Release(gameObject);
                 GameController.Instance.GetGameModel().AddScore(20);
             }
 

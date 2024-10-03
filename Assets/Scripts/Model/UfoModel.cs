@@ -5,7 +5,7 @@ namespace Model
     public class UfoModel: IEnemy
     {
         public Vector2 Position { get; set; }
-        public float Speed { get; set; }
+        public float Speed { get; set; } = 1.5f;
 
         public void Move(Vector2 targetPosition)
         {
@@ -22,10 +22,10 @@ namespace Model
        
         }
 
-        public UfoModel(Vector2 startPosition, float speed)
+        public UfoModel(Vector2 startPosition)
         {
             Position = startPosition;
-            Speed = speed;
+            //Speed = speed;
         }
     }
 }

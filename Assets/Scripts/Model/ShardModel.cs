@@ -5,7 +5,7 @@ namespace Model
     public class ShardModel : IEnemy
     {
         public Vector2 Position { get; set; }
-        public float Speed { get; set; }
+        public float Speed { get; set; } = 4f;
 
         public void Move()
         {
@@ -17,10 +17,10 @@ namespace Model
         }
         
     
-        public ShardModel(Vector2 startPosition, float speed)
+        public ShardModel(Vector2 startPosition)
         {
             Position = startPosition;
-            Speed = speed;
+           // Speed = speed;
         }
     }
 }

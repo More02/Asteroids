@@ -1,6 +1,8 @@
+using System;
 using System.Collections;
 using Model;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using View;
 
 namespace Controller
@@ -11,11 +13,27 @@ namespace Controller
         private ShipModel _shipModel;
 
         public static GameController Instance;
+        
+        private void OnEnable()
+        {
+            _gameModel.ScoreUpdated += ViewNewScore;
+        }
+        
+        private void OnDisable()
+        {
+            _gameModel.ScoreUpdated -= ViewNewScore;
+        }
 
         private void Awake()
         {
             Instance = this;
             _gameModel = new GameModel();
+        }
+        
+        private void Start()
+        {
+            GameView.Instance.HideGameOverPanel();
+            //StartCoroutine(GameLoop());
         }
 
         public GameModel GetGameModel()
@@ -23,20 +41,18 @@ namespace Controller
             return _gameModel;
         }
 
-        private void Start()
+        private void ViewNewScore()
         {
-            GameView.Instance.HideGameOverPanel();
-            StartCoroutine(GameLoop());
+            GameView.Instance.UpdateScore(_gameModel.Score);
         }
-
-        private IEnumerator GameLoop()
-        {
-            while (!_gameModel.SsGameOver)
-            {
-                GameView.Instance.UpdateScore(_gameModel.Score);
-                yield return new WaitForSeconds(1);
-            }
-        }
+        // private IEnumerator GameLoop()
+        // {
+        //     while (!_gameModel.IsGameOver)
+        //     {
+        //         GameView.Instance.UpdateScore(_gameModel.Score);
+        //         yield return new WaitForSeconds(1);
+        //     }
+        // }
 
         public void EndGame()
         {
@@ -49,10 +65,15 @@ namespace Controller
         {
             Time.timeScale = 1;
             _gameModel.RestartGame();
-            GameView.Instance.HideGameOverPanel();
-            ShipController.Instance.GetShipModel().Position = ShipController.Instance.ShipStartPosition;
-            ShipController.Instance.GetShipView().UpdatePosition(ShipController.Instance.GetShipModel().Position);
-            StartCoroutine(GameLoop());
+            //GameView.Instance.HideGameOverPanel();
+            // for (int i = 0; i < _gameModel._asteroids.Count)
+            // {
+            //     _gameModel._asteroids[i].
+            // }
+            //ShipController.Instance.GetShipModel().Position = ShipController.Instance.ShipStartPosition;
+            //ShipController.Instance.GetShipView().UpdatePosition(ShipController.Instance.GetShipModel().Position);
+            //StartCoroutine(GameLoop());
+            SceneManager.LoadScene(SceneManager.GetActiveScene().name);
         }
     }
 }

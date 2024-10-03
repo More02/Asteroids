@@ -9,12 +9,16 @@ namespace Controller
         private AsteroidModel _asteroidModel;
         [SerializeField] private EnemyView _enemyView;
         [SerializeField] private GameObject _shardsSpawnerHolder;
+        [SerializeField] private PoolView _poolView;
 
         private void Start()
         {
-            var speed = Random.Range(1f, 3f);
-            _asteroidModel = new AsteroidModel(transform.position, speed);
+           // var speed = Random.Range(1f, 3f);
+            _asteroidModel = new AsteroidModel(transform.position);
+            
             GameController.Instance.GetGameModel()._asteroids.Add(_asteroidModel);
+            
+            _asteroidModel.FillDirection();
         }
 
         private void Update()
@@ -29,13 +33,17 @@ namespace Controller
             {
                 Destroy(collision.gameObject);
                 SpawnShard();
-                Destroy(gameObject);
+                //Destroy(gameObject);
+                _poolView.GetBulletPool().Release(gameObject);
                 GameController.Instance.GetGameModel().AddScore(10);
             }
 
             if (collision.gameObject.CompareTag("Laser"))
             {
-                Destroy(gameObject);
+                //Destroy(collision.gameObject);
+                //Destroy(gameObject);
+                _poolView.GetBulletPool().Release(gameObject);
+                GameController.Instance.GetGameModel().AddScore(10);
             }
 
             if (collision.gameObject.CompareTag("Ship"))
