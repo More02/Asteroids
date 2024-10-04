@@ -6,6 +6,16 @@
 
 ---
 
+# Game Controll
+
+
+* W - перемещение вперёд
+* A, D - вращение влево/вправо
+* LMB - выстрел пулей
+* RMB - выстрел лазером
+
+---
+
 # Images
 <img src="landing/Asteroids_1.png" width = 900/>
 <img src="landing/Asteroids_2.png" width = 900/>
