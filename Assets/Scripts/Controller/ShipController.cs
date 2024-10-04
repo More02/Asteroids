@@ -15,7 +15,7 @@ namespace Controller
         private GameModel _gameModel;
         private const float Thrust = 9.8f;
         private Vector2 _velocity;
-        
+
         private Vector2 _lastPosition;
         private Vector2 _currentPosition;
         private float _distance;
@@ -24,9 +24,8 @@ namespace Controller
         public bool IsLaserActive { get; set; }
 
         public static ShipController Instance;
-        public Vector2 ShipStartPosition { get; private set; }
-        
-        
+
+        private Vector2 ShipStartPosition { get; set; }
 
         private void Awake()
         {
@@ -40,26 +39,20 @@ namespace Controller
         {
             return _shipModel;
         }
-        
+
         public IViewForBorder GetView()
         {
             return _shipView;
         }
 
-        private void Start()
-        {
-            
-        }
-        
         private void Update()
         {
             HandleMovement();
             CalculateInstantaneousSpeed();
-
-            //Debug.Log(GameController.Instance.GetGameModel().IsKeyboardInputEnabled);
+            
             if (!GameController.Instance.GetGameModel().IsKeyboardInputEnabled) return;
             if (IsLaserActive) return;
-            
+
             if (Input.GetMouseButtonDown(0))
             {
                 FireWithBullet();
@@ -70,24 +63,6 @@ namespace Controller
             }
         }
 
-        // public void OnPointerClick(PointerEventData eventData)
-        // {
-        //     Debug.Log(GameController.Instance.GetGameModel().IsKeyboardInputEnabled);
-        //     
-        //
-        //     switch (eventData.button)
-        //     {
-        //         case PointerEventData.InputButton.Left:
-        //             FireWithBullet();
-        //             Debug.Log("FireWithBullet");
-        //             break;
-        //         case PointerEventData.InputButton.Right:
-        //             FireWithLaser();
-        //             Debug.Log("FireWithLaser");
-        //             break;
-        //     }
-        // }
-
         private void HandleMovement()
         {
             var horizontal = Input.GetAxis("Horizontal");
@@ -95,17 +70,17 @@ namespace Controller
             if (vertical > 0.1)
             {
                 var thrustForce = (Vector2)transform.up * (Thrust * Time.deltaTime);
-                _velocity += thrustForce; 
+                _velocity += thrustForce;
                 _velocity = Vector2.ClampMagnitude(_velocity, _shipModel.Speed);
             }
-            
+
             _shipModel.Position += _velocity * Time.deltaTime;
             if (_velocity.magnitude > 0.01)
                 _velocity -= _velocity * Time.deltaTime;
             else
                 _velocity = Vector2.zero;
-            
-            
+
+
             if (horizontal != 0)
             {
                 _shipModel.Rotation *= Quaternion.Euler(0f, 0f, _shipModel.TurnSpeed * -horizontal * Time.deltaTime);
@@ -120,10 +95,11 @@ namespace Controller
         {
             _currentPosition = _shipModel.Position;
             _distance = Vector2.Distance(_lastPosition, _currentPosition);
-            _instantaneousSpeed= _distance / Time.deltaTime;
+            _instantaneousSpeed = _distance / Time.deltaTime;
             _lastPosition = _currentPosition;
-            
-            GameView.Instance.UpdateInstantaneousSpeedText(_instantaneousSpeed);
+
+            _shipModel.InstantaneousSpeed = _instantaneousSpeed;
+            GameView.Instance.UpdateInstantaneousSpeedText(_shipModel.InstantaneousSpeed);
         }
 
         public void FireWithBullet()
@@ -140,41 +116,34 @@ namespace Controller
             GameView.Instance.UpdateLaserShotsLimitText(_shipModel.LaserShotsLimit);
             StartCoroutine(RecoverLaserByTime());
         }
-        
+
         private IEnumerator RecoverLaserByTime()
         {
             yield return new WaitForSeconds(_shipModel.TimeForLaserRecover);
-            
+
             _shipModel.RecoverLaser();
             GameView.Instance.UpdateLaserShotsLimitText(_shipModel.LaserShotsLimit);
-            
+
             while (_shipModel.TimeForLaserRecover > 0)
             {
                 GameView.Instance.UpdateTimeForLaserRecoverText(_shipModel.TimeForLaserRecover);
-                yield return new WaitForSeconds(1f); 
-                _shipModel.TimeForLaserRecover--; 
+                yield return new WaitForSeconds(1f);
+                _shipModel.TimeForLaserRecover--;
             }
+
             GameView.Instance.UpdateTimeForLaserRecoverText(_shipModel.TimeForLaserRecover);
         }
 
         private void OnCollisionEnter2D(Collision2D col)
         {
             if ((col.gameObject.CompareTag("Bullet")) || (col.gameObject.CompareTag("Laser"))) return;
-            
+
             OnCollision();
-            
         }
 
-        public void OnCollision()
+        public static void OnCollision()
         {
-            //инвок OnHit
-            //GameModel.EndGame();
-            //перенести OnHit? Добавить инвоки для ивентов из GameView
-            
-            //HitEvent?.Invoke();
             GameController.Instance.EndGame();
-
         }
-        
     }
 }

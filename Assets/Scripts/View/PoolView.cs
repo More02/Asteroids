@@ -13,8 +13,6 @@ namespace View
             return _pool;
         }
 
-       // public static BulletPoolView Instance;
-
         private void Awake()
         {
             //Instance = this;
@@ -22,7 +20,7 @@ namespace View
                 createFunc: () => new GameObject("Bullet"),
                 actionOnGet: (obj) => obj.SetActive(true), 
                 actionOnRelease: (obj) => obj.SetActive(false),
-                actionOnDestroy: (obj) => Destroy(obj), 
+                actionOnDestroy: (obj) => obj.SetActive(false), 
                 false, defaultCapacity: 20, maxSize: 20
                 );
             ChildToPool();

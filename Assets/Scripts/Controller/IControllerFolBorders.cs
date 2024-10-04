@@ -1,6 +1,4 @@
-﻿using System;
-using Model;
-using Unity.VisualScripting;
+﻿using Model;
 using View;
 
 namespace Controller

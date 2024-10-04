@@ -1,0 +1,29 @@
+using System;
+using UnityEngine;
+using Random = UnityEngine.Random;
+
+namespace Model.Enemy
+{
+    [Serializable]
+    public class AsteroidModel : IEnemy, IModelForBorder
+    {
+        public Vector2 Direction { get; set; }
+        public Vector2 Position { get; set; }
+        public float Speed { get; set; } = 3f;
+
+        public void FillDirection()
+        {
+            Direction = Random.insideUnitCircle;
+        }
+
+        public void Move()
+        {
+            Position += Direction * (Time.deltaTime * Speed);
+        }
+
+        public AsteroidModel(Vector2 startPosition)
+        {
+            Position = startPosition;
+        }
+    }
+}

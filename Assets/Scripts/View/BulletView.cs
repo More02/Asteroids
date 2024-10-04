@@ -8,10 +8,5 @@ namespace View
         {
             transform.position = newPosition;
         }
-
-        public void UpdateRotation(Quaternion newRotation)
-        {
-            transform.rotation = newRotation;
-        }
     }
 }

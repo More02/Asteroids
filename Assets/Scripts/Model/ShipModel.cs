@@ -15,13 +15,11 @@ namespace Model
         public int LaserShotsLimit { get; set; } = 4;
         public int QuantityOfLaserShotsToRecoverByOneTime { get; set; } = 1;
         public int TimeForLaserRecover { get; set; } = 5;
-        
 
         public ShipModel(Vector2 startPosition, Quaternion startRotation)
         {
             Position = startPosition;
             Rotation = startRotation;
-            //LaserShotsLimit = 4;
         }
 
         public void UseLaser()
@@ -31,7 +29,7 @@ namespace Model
                 LaserShotsLimit--;
             }
         }
-        
+
         public void RecoverLaser()
         {
             LaserShotsLimit += QuantityOfLaserShotsToRecoverByOneTime;
