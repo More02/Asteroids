@@ -14,6 +14,7 @@ GameObject:
   - component: {fileID: 7878425735383600831}
   - component: {fileID: -2808193137076575439}
   - component: {fileID: 1734698837278699163}
+  - component: {fileID: 6559097861197574632}
   m_Layer: 0
   m_Name: UFO
   m_TagString: Untagged
@@ -101,6 +102,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _enemyPrefab: {fileID: 481861861004984312}
+  _poolView: {fileID: 0}
 --- !u!114 &7878425735383600831
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -114,6 +116,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _enemyView: {fileID: 1658351266951563247}
+  _poolView: {fileID: 0}
 --- !u!50 &-2808193137076575439
 Rigidbody2D:
   serializedVersion: 4
@@ -193,3 +196,15 @@ EdgeCollider2D:
   m_AdjacentEndPoint: {x: 0, y: 0}
   m_UseAdjacentStartPoint: 0
   m_UseAdjacentEndPoint: 0
+--- !u!114 &6559097861197574632
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 481861861004984312}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 837af6216b716c64f94cb2b84004c735, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

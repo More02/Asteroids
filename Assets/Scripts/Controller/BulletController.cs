@@ -1,4 +1,5 @@
-﻿using Model;
+﻿using System;
+using Model;
 using UnityEngine;
 using View;
 
@@ -11,9 +12,14 @@ namespace Controller
 
         private Vector2 _direction;
 
-        private void Start()
+        private void Awake()
         {
             _bulletModel = new BulletModel(transform.position);
+        }
+
+        private void OnEnable()
+        {
+            _bulletModel.Position = transform.position;
             _direction = ShipController.Instance.gameObject.transform.up;
         }
 

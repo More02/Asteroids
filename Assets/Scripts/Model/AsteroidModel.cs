@@ -5,10 +5,10 @@ using Random = UnityEngine.Random;
 namespace Model
 {
     [Serializable]
-    public class AsteroidModel : IEnemy
+    public class AsteroidModel : IEnemy, IModelForBorder
     {
-        public Vector2 Position { get; set; }
         public Vector2 Direction { get; set; }
+        public Vector2 Position { get; set; }
         public float Speed { get; set; } = 3f;
 
         public void OnHit()

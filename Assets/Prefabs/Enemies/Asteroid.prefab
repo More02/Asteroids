@@ -14,6 +14,7 @@ GameObject:
   - component: {fileID: 8694049563866060189}
   - component: {fileID: 2763982438977683917}
   - component: {fileID: 6095920861364289799}
+  - component: {fileID: -2886947871494433907}
   m_Layer: 0
   m_Name: Asteroid
   m_TagString: Untagged
@@ -116,6 +117,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _enemyView: {fileID: 6272296888618879616}
   _shardsSpawnerHolder: {fileID: 6601797454389163054, guid: 43119f6761b84044f8bf8ce7e7fb82b7, type: 3}
+  _poolView: {fileID: 0}
 --- !u!50 &2763982438977683917
 Rigidbody2D:
   serializedVersion: 4
@@ -178,3 +180,15 @@ CircleCollider2D:
   m_Offset: {x: 0, y: 0}
   serializedVersion: 2
   m_Radius: 3
+--- !u!114 &-2886947871494433907
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5621609109585006734}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 837af6216b716c64f94cb2b84004c735, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

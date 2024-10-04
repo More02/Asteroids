@@ -8,7 +8,7 @@ namespace View
         private ObjectPool<GameObject> _pool;
         [SerializeField] private Transform _objectsForPoolHolder;
 
-        public ObjectPool<GameObject> GetBulletPool()
+        public ObjectPool<GameObject> GetPool()
         {
             return _pool;
         }

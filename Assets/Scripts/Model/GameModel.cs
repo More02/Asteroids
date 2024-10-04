@@ -7,9 +7,9 @@ namespace Model
     {
         public int Score { get; private set; }
         public bool IsGameOver { get; private set; }
-        public List<AsteroidModel> _asteroids { get; set; }
-        public List<UfoModel> _ufos { get; set; }
-        public List<ShardModel> _shards { get; set; }
+        // public List<AsteroidModel> _asteroids { get; set; }
+        // public List<UfoModel> _ufos { get; set; }
+        // public List<ShardModel> _shards { get; set; }
 
         public event Action ScoreUpdated;
 
@@ -17,9 +17,9 @@ namespace Model
         {
             Score = 0;
             IsGameOver = false;
-            _asteroids = new List<AsteroidModel>();
-            _ufos = new List<UfoModel>();
-            _shards = new List<ShardModel>();
+            // _asteroids = new List<AsteroidModel>();
+            // _ufos = new List<UfoModel>();
+            // _shards = new List<ShardModel>();
         }
 
         public void AddScore(int point)
@@ -37,9 +37,9 @@ namespace Model
         {
             Score = 0;
             IsGameOver = false;
-            _asteroids?.Clear();
-            _ufos?.Clear();
-            _shards?.Clear();
+            // _asteroids?.Clear();
+            // _ufos?.Clear();
+            // _shards?.Clear();
         }
         
     }

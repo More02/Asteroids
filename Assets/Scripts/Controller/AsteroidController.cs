@@ -4,7 +4,7 @@ using View;
 
 namespace Controller
 {
-    public class AsteroidController : MonoBehaviour
+    public class AsteroidController : MonoBehaviour, IControllerFolBorders
     {
         private AsteroidModel _asteroidModel;
         [SerializeField] private EnemyView _enemyView;
@@ -16,7 +16,7 @@ namespace Controller
            // var speed = Random.Range(1f, 3f);
             _asteroidModel = new AsteroidModel(transform.position);
             
-            GameController.Instance.GetGameModel()._asteroids.Add(_asteroidModel);
+            //GameController.Instance.GetGameModel()._asteroids.Add(_asteroidModel);
             
             _asteroidModel.FillDirection();
         }
@@ -26,6 +26,16 @@ namespace Controller
             _asteroidModel.Move();
             _enemyView.UpdatePosition(_asteroidModel.Position);
         }
+        
+        public IModelForBorder GetModel()
+        {
+            return _asteroidModel;
+        }
+
+        public IViewForBorder GetView()
+        {
+            return _enemyView;
+        }
 
         private void OnCollisionEnter2D(Collision2D collision)
         {
@@ -34,7 +44,7 @@ namespace Controller
                 Destroy(collision.gameObject);
                 SpawnShard();
                 //Destroy(gameObject);
-                _poolView.GetBulletPool().Release(gameObject);
+                _poolView.GetPool().Release(gameObject);
                 GameController.Instance.GetGameModel().AddScore(10);
             }
 
@@ -42,7 +52,7 @@ namespace Controller
             {
                 //Destroy(collision.gameObject);
                 //Destroy(gameObject);
-                _poolView.GetBulletPool().Release(gameObject);
+                _poolView.GetPool().Release(gameObject);
                 GameController.Instance.GetGameModel().AddScore(10);
             }
 
@@ -63,5 +73,7 @@ namespace Controller
            // var shard = new ShardModel(shardPosition, shardSpeed);
             // Создание ShardView или префаба
         }
+
+        
     }
 }

@@ -2,7 +2,7 @@ using UnityEngine;
 
 namespace Model
 {
-    public class UfoModel: IEnemy
+    public class UfoModel: IEnemy, IModelForBorder
     {
         public Vector2 Position { get; set; }
         public float Speed { get; set; } = 1.5f;

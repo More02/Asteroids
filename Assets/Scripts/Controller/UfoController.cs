@@ -4,7 +4,7 @@ using View;
 
 namespace Controller
 {
-    public class UfoController : MonoBehaviour
+    public class UfoController : MonoBehaviour, IControllerFolBorders
     {
         private UfoModel _ufoModel;
         [SerializeField] private EnemyView _enemyView;
@@ -14,7 +14,17 @@ namespace Controller
         {
             //var speed = 2f;
             _ufoModel = new UfoModel(transform.position); 
-            GameController.Instance.GetGameModel()._ufos.Add(_ufoModel);
+            //GameController.Instance.GetGameModel()._ufos.Add(_ufoModel);
+        }
+        
+        public IModelForBorder GetModel()
+        {
+            return _ufoModel;
+        }
+
+        public IViewForBorder GetView()
+        {
+            return _enemyView;
         }
 
         private void Update()
@@ -30,7 +40,7 @@ namespace Controller
             {
                 Destroy(collision.gameObject);
                 //Destroy(gameObject);
-                _poolView.GetBulletPool().Release(gameObject);
+                _poolView.GetPool().Release(gameObject);
                 GameController.Instance.GetGameModel().AddScore(20);
             }
             
@@ -38,7 +48,7 @@ namespace Controller
             {
                 //Destroy(collision.gameObject);
                 //Destroy(gameObject);
-                _poolView.GetBulletPool().Release(gameObject);
+                _poolView.GetPool().Release(gameObject);
                 GameController.Instance.GetGameModel().AddScore(20);
             }
 

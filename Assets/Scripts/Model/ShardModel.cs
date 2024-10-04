@@ -2,7 +2,7 @@ using UnityEngine;
 
 namespace Model
 {
-    public class ShardModel : IEnemy
+    public class ShardModel : IEnemy, IModelForBorder
     {
         public Vector2 Position { get; set; }
         public float Speed { get; set; } = 4f;

@@ -5,7 +5,7 @@ using View;
 
 namespace Controller
 {
-    public class ShipController : MonoBehaviour
+    public class ShipController : MonoBehaviour, IControllerFolBorders
     {
         [SerializeField] private ShipModel _shipModel;
         [SerializeField] private ShipView _shipView;
@@ -22,12 +22,12 @@ namespace Controller
             Instance = this;
         }
 
-        public ShipModel GetShipModel()
+        public IModelForBorder GetModel()
         {
             return _shipModel;
         }
         
-        public ShipView GetShipView()
+        public IViewForBorder GetView()
         {
             return _shipView;
         }

@@ -4,7 +4,7 @@ using UnityEngine;
 namespace Model
 {
     [Serializable]
-    public class ShipModel
+    public class ShipModel : IModelForBorder
     {
         public Vector2 Position { get; set; }
         public Quaternion Rotation { get; set; }

@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace View
 {
-    public class EnemyView : MonoBehaviour
+    public class EnemyView : MonoBehaviour, IViewForBorder
     {
         [SerializeField] private GameObject _enemyPrefab;
         [SerializeField] private PoolView _poolView;
@@ -21,7 +21,7 @@ namespace View
         public void CreateEnemy(Vector2 position, Quaternion rotation)
         {
             //Instantiate(_enemyPrefab, position, rotation);
-            var enemy = _poolView.GetBulletPool().Get();
+            var enemy = _poolView.GetPool().Get();
             enemy.transform.position = position;
             enemy.transform.rotation = rotation;
             

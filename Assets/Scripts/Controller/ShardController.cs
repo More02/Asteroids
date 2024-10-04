@@ -4,7 +4,7 @@ using View;
 
 namespace Controller
 {
-    public class ShardController : MonoBehaviour
+    public class ShardController : MonoBehaviour, IControllerFolBorders
     {
         private ShardModel _shardModel;
         [SerializeField] private EnemyView _enemyView;
@@ -13,13 +13,23 @@ namespace Controller
         {
             //var speed = Random.Range(4f, 6f);
             _shardModel = new ShardModel(transform.position);
-            GameController.Instance.GetGameModel()._shards.Add(_shardModel);
+          //  GameController.Instance.GetGameModel()._shards.Add(_shardModel);
         }
 
         private void Update()
         {
             _shardModel.Move();
             _enemyView.UpdatePosition(_shardModel.Position);
+        }
+        
+        public IModelForBorder GetModel()
+        {
+            return _shardModel;
+        }
+
+        public IViewForBorder GetView()
+        {
+            return _enemyView;
         }
 
         private void OnCollisionEnter2D(Collision2D collision)
