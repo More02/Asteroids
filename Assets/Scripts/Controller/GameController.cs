@@ -38,7 +38,7 @@ namespace Controller
             if (_shipModel is not null)
             {
                 _gameView.UpdateScoreText(0);
-                _gameView.UpdateRotationText(_shipModel.Rotation);
+                _gameView.UpdateRotationText(_shipModel.Rotation.eulerAngles.z);
                 _gameView.UpdateInstantaneousSpeedText(0);
                 _gameView.UpdateLaserShotsLimitText(_shipModel.LaserShotsLimit);
                 _gameView.UpdateTimeForLaserRecoverText(_shipModel.TimeForLaserRecover);
@@ -69,6 +69,7 @@ namespace Controller
         public void EndGame()
         {
             _gameModel.IsKeyboardInputEnabled = false;
+            //_gameView.UpdateInstantaneousSpeedText(0);
             Time.timeScale = 0;
             _gameModel.EndGame();
             GameView.Instance.ShowGameOverPanel(_gameModel.Score);

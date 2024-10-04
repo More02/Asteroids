@@ -113,7 +113,7 @@ namespace Controller
 
             _shipView.UpdatePosition(_shipModel.Position);
             _shipView.UpdateRotation(_shipModel.Rotation);
-            GameView.Instance.UpdateRotationText(_shipModel.Rotation);
+            GameView.Instance.UpdateRotationText(_shipModel.Rotation.eulerAngles.z);
         }
 
         private void CalculateInstantaneousSpeed()

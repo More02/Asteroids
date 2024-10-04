@@ -28,13 +28,14 @@ namespace View
             _scoreText.text = "Score: " + score;
         }
         
-        public void UpdateRotationText(Quaternion rotation)
+        public void UpdateRotationText(float rotation)
         {
             _rotationText.text = "Rotation: " + rotation;
         }
         
         public void UpdateInstantaneousSpeedText(float instantaneousSpeed)
         {
+            if (float.IsNaN(instantaneousSpeed)) return;
             _instantaneousSpeedText.text = "Instantaneous speed: " + instantaneousSpeed;
         }
         
@@ -45,7 +46,7 @@ namespace View
         
         public void UpdateTimeForLaserRecoverText(int timeInSeconds)
         {
-            _timeForLaserRecoverText.text = "Time for laser recover: " + timeInSeconds + "s";
+            _timeForLaserRecoverText.text = "Time for laser recover: " + timeInSeconds + " s";
         }
 
         public void ShowGameOverPanel(int finalScore)
