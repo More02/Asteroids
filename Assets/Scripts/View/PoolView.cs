@@ -15,14 +15,13 @@ namespace View
 
         private void Awake()
         {
-            //Instance = this;
             _pool = new ObjectPool<GameObject>(
                 createFunc: () => new GameObject("Bullet"),
-                actionOnGet: (obj) => obj.SetActive(true), 
+                actionOnGet: (obj) => obj.SetActive(true),
                 actionOnRelease: (obj) => obj.SetActive(false),
-                actionOnDestroy: (obj) => obj.SetActive(false), 
+                actionOnDestroy: (obj) => obj.SetActive(false),
                 false, defaultCapacity: 20, maxSize: 20
-                );
+            );
             ChildToPool();
         }
 

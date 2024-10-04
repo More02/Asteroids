@@ -1,8 +1,8 @@
 ﻿using UnityEngine;
 
-namespace View
+namespace View.Weapons
 {
-    public class BulletView: MonoBehaviour
+    public class BulletView : MonoBehaviour
     {
         public void UpdatePosition(Vector2 newPosition)
         {

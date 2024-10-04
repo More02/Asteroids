@@ -1,6 +1,6 @@
 ﻿using Model;
 using UnityEngine;
-using View;
+using View.Weapons;
 
 namespace Controller
 {
@@ -15,17 +15,23 @@ namespace Controller
         {
             _bulletModel = new BulletModel(transform.position);
         }
-
+        
         private void OnEnable()
         {
+            _bulletModel.PositionChanged += _bulletView.UpdatePosition;
+            
             _bulletModel.Position = transform.position;
             _direction = ShipController.Instance.gameObject.transform.up;
+        }
+
+        private void OnDisable()
+        {
+            _bulletModel.PositionChanged -= _bulletView.UpdatePosition;
         }
 
         private void FixedUpdate()
         {
             _bulletModel.Move(_direction);
-            _bulletView.UpdatePosition(_bulletModel.Position);
         }
     }
 }

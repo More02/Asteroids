@@ -24,7 +24,6 @@ namespace Controller
             if (_iControllerFolBordersController.GetModel() is null) return;
 
             _iControllerFolBordersController.GetModel().Position = playerPosition;
-            _iControllerFolBordersController.GetView()!.UpdatePosition(_iControllerFolBordersController.GetModel().Position);
         }
 
         private Vector2 WrapPosition(Vector2 position)

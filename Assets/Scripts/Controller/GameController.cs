@@ -54,8 +54,10 @@ namespace Controller
             GameView.Instance.UpdateScoreText(_gameModel.Score);
         }
 
-        public void EndGame()
+        public void EndGame(Vector2 crashPosition)
         {
+            ShipController.Instance._explosionObject.SetActive(true);
+            ShipController.Instance._explosionObject.transform.position = crashPosition;
             _gameModel.IsKeyboardInputEnabled = false;
             Time.timeScale = 0;
             GameView.Instance.ShowGameOverPanel(_gameModel.Score);

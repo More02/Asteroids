@@ -18,6 +18,7 @@ namespace Controller.Enemy
                _mainCamera = Camera.main;
                _screenBounds = _mainCamera!.ViewportToWorldPoint(new Vector3(1, 1, _mainCamera.transform.position.z));
                if (_isForSecondStageObjects) return;
+               
                StartCoroutine(SpawnEnemiesRoutine(_isForSecondStageObjects));
           }
 

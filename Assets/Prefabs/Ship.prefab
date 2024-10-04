@@ -103,10 +103,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 69ad7c446bb816c4da0112d6e1cb03a3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _bulletPrefab: {fileID: 3236772644982957023, guid: 2f5ccd15585b628468a26027182bb269, type: 3}
-  _laserPrefab: {fileID: 1456387557663505135}
-  _poolView: {fileID: 5211605924736562673}
-  _renderer: {fileID: 8868130460165244687}
 --- !u!114 &2619543339947870130
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -120,6 +116,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _shipView: {fileID: 2395456377910902749}
+  _laserView: {fileID: 0}
+  _bulletShooterView: {fileID: 0}
+  LaserButtonTips: {fileID: 0}
+  BulletButtonTips: {fileID: 0}
+  _explosionObject: {fileID: 7707609085636470119, guid: 452564a8f86265344b02f1c024241d33, type: 3}
 --- !u!114 &6823907386545471935
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -579,11 +580,6 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 49d65ab3b90185249a8f5301912092c1, type: 3}
---- !u!1 &1456387557663505135 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 983712058518497597, guid: 49d65ab3b90185249a8f5301912092c1, type: 3}
-  m_PrefabInstance: {fileID: 1842245079831909330}
-  m_PrefabAsset: {fileID: 0}
 --- !u!4 &4570194153887027406 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 2809242853683184412, guid: 49d65ab3b90185249a8f5301912092c1, type: 3}

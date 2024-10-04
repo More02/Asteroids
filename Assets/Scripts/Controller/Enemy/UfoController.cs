@@ -1,3 +1,4 @@
+using System;
 using Model;
 using Model.Enemy;
 using UnityEngine;
@@ -11,11 +12,28 @@ namespace Controller.Enemy
         [SerializeField] private EnemyView _enemyView;
         [SerializeField] private PoolView _poolView;
 
-        private void Start()
+        private void Awake()
         {
             _ufoModel = new UfoModel(transform.position);
         }
 
+        private void OnEnable()
+        {
+            _ufoModel.Position = transform.position;
+            _ufoModel.PositionChanged += _enemyView.UpdatePosition;
+        }
+
+        private void OnDisable()
+        {
+            _ufoModel.PositionChanged -= _enemyView.UpdatePosition;
+        }
+
+        private void Update()
+        {
+            Vector2 targetPosition = ShipController.Instance.transform.position;
+            _ufoModel.Move(targetPosition);
+        }
+        
         public IModelForBorder GetModel()
         {
             return _ufoModel;
@@ -24,13 +42,6 @@ namespace Controller.Enemy
         public IViewForBorder GetView()
         {
             return _enemyView;
-        }
-
-        private void Update()
-        {
-            Vector2 targetPosition = ShipController.Instance.transform.position;
-            _ufoModel.Move(targetPosition);
-            _enemyView.UpdatePosition(_ufoModel.Position);
         }
 
         private void OnCollisionEnter2D(Collision2D collision)
@@ -46,11 +57,6 @@ namespace Controller.Enemy
             {
                 _poolView.GetPool().Release(gameObject);
                 GameController.Instance.GetGameModel().AddScore(20);
-            }
-
-            if (collision.gameObject.CompareTag("Ship"))
-            {
-                ShipController.OnCollision();
             }
         }
     }

@@ -12,16 +12,26 @@ namespace Controller.Enemy
         [SerializeField] private EnemySpawnerController _shardsSpawner;
         [SerializeField] private PoolView _poolView;
 
-        private void Start()
+        private void Awake()
         {
             _asteroidModel = new AsteroidModel(transform.position);
             _asteroidModel.FillDirection();
         }
 
+        private void OnEnable()
+        {
+            _asteroidModel.Position = transform.position;
+            _asteroidModel.PositionChanged += _enemyView.UpdatePosition;
+        }
+
+        private void OnDisable()
+        {
+            _asteroidModel.PositionChanged -= _enemyView.UpdatePosition;
+        }
+
         private void Update()
         {
             _asteroidModel.Move();
-            _enemyView.UpdatePosition(_asteroidModel.Position);
         }
 
         public IModelForBorder GetModel()
@@ -48,11 +58,6 @@ namespace Controller.Enemy
             {
                 _poolView.GetPool().Release(gameObject);
                 GameController.Instance.GetGameModel().AddScore(10);
-            }
-
-            if (collision.gameObject.CompareTag("Ship"))
-            {
-                ShipController.OnCollision();
             }
         }
 

@@ -1,7 +1,7 @@
-using System.Collections;
 using Model;
 using UnityEngine;
 using View;
+using View.Weapons;
 
 namespace Controller
 {
@@ -9,8 +9,10 @@ namespace Controller
     {
         [SerializeField] private ShipModel _shipModel;
         [SerializeField] private ShipView _shipView;
-
-        private GameModel _gameModel;
+        
+        [SerializeField] private LaserView _laserView;
+        [SerializeField] private BulletShooterView _bulletShooterView;
+        
         private const float Thrust = 9.8f;
         private Vector2 _velocity;
 
@@ -19,8 +21,10 @@ namespace Controller
         private float _distance;
         private float _instantaneousSpeed;
 
-        [SerializeField] public GameObject LaserButtonTips;
-        [SerializeField] public GameObject BulletButtonTips;
+        public GameObject LaserButtonTips;
+        public GameObject BulletButtonTips;
+
+        [SerializeField] public GameObject _explosionObject;
 
         public bool IsLaserActive { get; set; }
 
@@ -34,6 +38,18 @@ namespace Controller
             _shipModel = new ShipModel(transform.position, transform.rotation);
             ShipStartPosition = transform.position;
             _lastPosition = ShipStartPosition;
+        }
+
+        private void OnEnable()
+        {
+            _shipModel.PositionChanged += _shipView.UpdatePosition;
+            _shipModel.RotationChanged += _shipView.UpdateRotation;
+        }
+
+        private void OnDisable()
+        {
+            _shipModel.PositionChanged -= _shipView.UpdatePosition;
+            _shipModel.RotationChanged -= _shipView.UpdateRotation;
         }
 
         public IModelForBorder GetModel()
@@ -86,9 +102,7 @@ namespace Controller
             {
                 _shipModel.Rotation *= Quaternion.Euler(0f, 0f, _shipModel.TurnSpeed * -horizontal * Time.deltaTime);
             }
-
-            _shipView.UpdatePosition(_shipModel.Position);
-            _shipView.UpdateRotation(_shipModel.Rotation);
+            
             GameView.Instance.UpdateRotationText(_shipModel.Rotation.eulerAngles.z);
         }
 
@@ -103,49 +117,29 @@ namespace Controller
             GameView.Instance.UpdateInstantaneousSpeedText(_shipModel.InstantaneousSpeed);
         }
 
-        public void FireWithBullet()
+        private void FireWithBullet()
         {
-            _shipView.ShowBullet(transform);
+            _bulletShooterView.ShowBullet(transform);
         }
 
-        public void FireWithLaser()
+        private void FireWithLaser()
         {
-            if (_shipModel.LaserShotsLimit <= 0) return;
+            if (_shipModel.LaserShotsLimit == 0) return;
+            
             LaserButtonTips.GetComponent<CanvasGroup>().alpha = 0.1f;
+            BulletButtonTips.GetComponent<CanvasGroup>().alpha = 0.1f;
             _shipModel.UseLaser();
-            _shipView.ShowLaser();
+            _laserView.ShowLaser();
             IsLaserActive = true;
             GameView.Instance.UpdateLaserShotsLimitText(_shipModel.LaserShotsLimit);
-            StartCoroutine(RecoverLaserByTime());
+            StartCoroutine(LaserView.RecoverLaserByTime());
         }
 
-        private IEnumerator RecoverLaserByTime()
+        private void OnCollisionEnter2D(Collision2D collision)
         {
-            yield return new WaitForSeconds(_shipModel.TimeForLaserRecover);
-
-            _shipModel.RecoverLaser();
-            GameView.Instance.UpdateLaserShotsLimitText(_shipModel.LaserShotsLimit);
-
-            while (_shipModel.TimeForLaserRecover > 0)
-            {
-                GameView.Instance.UpdateTimeForLaserRecoverText(_shipModel.TimeForLaserRecover);
-                yield return new WaitForSeconds(1f);
-                _shipModel.TimeForLaserRecover--;
-            }
-
-            GameView.Instance.UpdateTimeForLaserRecoverText(_shipModel.TimeForLaserRecover);
-        }
-
-        private void OnCollisionEnter2D(Collision2D col)
-        {
-            if ((col.gameObject.CompareTag("Bullet")) || (col.gameObject.CompareTag("Laser"))) return;
-
-            OnCollision();
-        }
-
-        public static void OnCollision()
-        {
-            GameController.Instance.EndGame();
+            if ((collision.gameObject.CompareTag("Bullet")) || (collision.gameObject.CompareTag("Laser"))) return;
+            
+            GameController.Instance.EndGame(collision.contacts[0].point);
         }
     }
 }

@@ -14,8 +14,10 @@ namespace View
         public void CreateEnemy(Vector2 position, Quaternion rotation)
         {
             var enemy = _poolView.GetPool().Get();
+            enemy.SetActive(false);
             enemy.transform.position = position;
             enemy.transform.rotation = rotation;
+            enemy.SetActive(true);
         }
     }
 }

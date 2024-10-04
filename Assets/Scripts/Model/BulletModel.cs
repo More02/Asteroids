@@ -1,10 +1,24 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 
 namespace Model
 {
+    [Serializable]
     public class BulletModel
     {
-        public Vector2 Position { get; set; }
+        public event Action<Vector2> PositionChanged;
+
+        private Vector2 _position;
+        public Vector2 Position
+        {
+            get => _position;
+            set
+            {
+                _position = value;
+                PositionChanged?.Invoke(Position);
+            }
+        }
+        
         private static float Speed => 5f;
 
         public void Move(Vector2 forwardDirection)

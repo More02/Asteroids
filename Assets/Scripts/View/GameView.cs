@@ -1,4 +1,3 @@
-using Model;
 using TMPro;
 using UnityEngine;
 
@@ -6,11 +5,10 @@ namespace View
 {
     public class GameView : MonoBehaviour
     {
-        [SerializeField] private TMP_Text _scoreText;
         [SerializeField] private GameObject _finalCanvas;
         [SerializeField] private TMP_Text _finalScoreText;
-        private GameModel _gameModel;
-        
+
+        [SerializeField] private TMP_Text _scoreText;
         [SerializeField] private TMP_Text _rotationText;
         [SerializeField] private TMP_Text _instantaneousSpeedText;
         [SerializeField] private TMP_Text _laserShotsLimitText;
