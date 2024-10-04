@@ -115,6 +115,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _enemyView: {fileID: 6258208255056382995}
+  _poolView: {fileID: 0}
 --- !u!50 &-76196495286875503
 Rigidbody2D:
   serializedVersion: 4

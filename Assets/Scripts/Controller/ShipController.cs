@@ -1,8 +1,6 @@
-using System;
 using System.Collections;
 using Model;
 using UnityEngine;
-using UnityEngine.EventSystems;
 using View;
 
 namespace Controller
@@ -20,6 +18,9 @@ namespace Controller
         private Vector2 _currentPosition;
         private float _distance;
         private float _instantaneousSpeed;
+
+        [SerializeField] public GameObject LaserButtonTips;
+        [SerializeField] public GameObject BulletButtonTips;
 
         public bool IsLaserActive { get; set; }
 
@@ -110,8 +111,9 @@ namespace Controller
         public void FireWithLaser()
         {
             if (_shipModel.LaserShotsLimit <= 0) return;
+            LaserButtonTips.GetComponent<CanvasGroup>().alpha = 0.1f;
             _shipModel.UseLaser();
-            _shipView.ShowLaser(transform);
+            _shipView.ShowLaser();
             IsLaserActive = true;
             GameView.Instance.UpdateLaserShotsLimitText(_shipModel.LaserShotsLimit);
             StartCoroutine(RecoverLaserByTime());

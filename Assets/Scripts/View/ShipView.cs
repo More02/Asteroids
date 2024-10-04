@@ -21,18 +21,26 @@ namespace View
 
         public void ShowBullet(Transform transformNew)
         {
-            var bullet = _poolView.GetPool().Get();
-            bullet.SetActive(false);
+            if (_poolView.GetPool().CountInactive > 0)
+            {
+                var bullet = _poolView.GetPool().Get();
+                bullet.SetActive(false);
 
-            bullet.transform.position = transformNew.position;
-            bullet.transform.rotation = Quaternion.identity;
-            bullet.transform.right = transformNew.up;
+                bullet.transform.position = transformNew.position;
+                bullet.transform.rotation = Quaternion.identity;
+                bullet.transform.right = transformNew.up;
 
-            bullet.SetActive(true);
-            StartCoroutine(ReturnObjectAfterDelay(bullet));
+                bullet.SetActive(true);
+                StartCoroutine(ReturnObjectAfterDelay(bullet));
+            }
+            else
+            {
+                ShipController.Instance.BulletButtonTips.GetComponent<CanvasGroup>().alpha = 0.1f;
+            }
+            
         }
 
-        public void ShowLaser(Transform transformNew)
+        public void ShowLaser()
         {
             _laserPrefab.SetActive(true);
             StartCoroutine(HideObjectAfterDelay(_laserPrefab));
@@ -42,6 +50,7 @@ namespace View
         {
             yield return new WaitForSeconds(4f);
 
+            ShipController.Instance.BulletButtonTips.GetComponent<CanvasGroup>().alpha = 1f;
             _poolView.GetPool().Release(objectToReturn);
         }
 
@@ -51,6 +60,7 @@ namespace View
 
             objectToHide.SetActive(false);
             ShipController.Instance.IsLaserActive = false;
+            ShipController.Instance.LaserButtonTips.GetComponent<CanvasGroup>().alpha = 1f;
         }
     }
 }

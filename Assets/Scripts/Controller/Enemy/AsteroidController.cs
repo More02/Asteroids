@@ -9,7 +9,7 @@ namespace Controller.Enemy
     {
         private AsteroidModel _asteroidModel;
         [SerializeField] private EnemyView _enemyView;
-        [SerializeField] private GameObject _shardsSpawnerHolder;
+        [SerializeField] private EnemySpawnerController _shardsSpawner;
         [SerializeField] private PoolView _poolView;
 
         private void Start()
@@ -58,7 +58,7 @@ namespace Controller.Enemy
 
         private void SpawnShard()
         {
-            _shardsSpawnerHolder.SetActive(true);
+            _shardsSpawner.SpawnEnemies();
         }
     }
 }

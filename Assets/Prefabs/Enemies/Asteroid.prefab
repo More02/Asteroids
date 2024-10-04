@@ -115,7 +115,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _enemyView: {fileID: 6272296888618879616}
-  _shardsSpawnerHolder: {fileID: 6601797454389163054, guid: 43119f6761b84044f8bf8ce7e7fb82b7, type: 3}
+  _shardsSpawner: {fileID: 0}
   _poolView: {fileID: 0}
 --- !u!50 &2763982438977683917
 Rigidbody2D:
