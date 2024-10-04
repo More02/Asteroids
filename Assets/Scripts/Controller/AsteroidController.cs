@@ -41,9 +41,10 @@ namespace Controller
         {
             if (collision.gameObject.CompareTag("Bullet"))
             {
-                Destroy(collision.gameObject);
+                //Destroy(collision.gameObject);
                 SpawnShard();
                 //Destroy(gameObject);
+                ShipController.Instance.gameObject.GetComponent<PoolView>().GetPool().Release(collision.gameObject);
                 _poolView.GetPool().Release(gameObject);
                 GameController.Instance.GetGameModel().AddScore(10);
             }
@@ -66,7 +67,8 @@ namespace Controller
         {
             //вызвать что-то из ShardController вместо всего этого метода?
             //сначала инстанциация, потом уже создание объекта модели в старте ShardController
-            var shardsSpawnerHolder = Instantiate(_shardsSpawnerHolder, _asteroidModel.Position, transform.rotation);
+           // var shardsSpawnerHolder = Instantiate(_shardsSpawnerHolder, _asteroidModel.Position, transform.rotation);
+            _shardsSpawnerHolder.SetActive(true);
             //shardsSpawnerHolder.GetComponent<EnemyController>()
            // var shardPosition = _asteroidModel.Position; 
             //var shardSpeed = Random.Range(4f, 6f);

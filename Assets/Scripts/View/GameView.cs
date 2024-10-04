@@ -9,7 +9,12 @@ namespace View
         [SerializeField] private TMP_Text _scoreText;
         [SerializeField] private GameObject _finalCanvas;
         [SerializeField] private TMP_Text _finalScoreText;
-        [SerializeField] private GameModel _gameModel;
+        private GameModel _gameModel;
+        
+        [SerializeField] private TMP_Text _rotationText;
+        [SerializeField] private TMP_Text _instantaneousSpeedText;
+        [SerializeField] private TMP_Text _laserShotsLimitText;
+        [SerializeField] private TMP_Text _timeForLaserRecoverText;
 
         public static GameView Instance;
 
@@ -18,9 +23,29 @@ namespace View
             Instance = this;
         }
 
-        public void UpdateScore(int score)
+        public void UpdateScoreText(int score)
         {
             _scoreText.text = "Score: " + score;
+        }
+        
+        public void UpdateRotationText(Quaternion rotation)
+        {
+            _rotationText.text = "Rotation: " + rotation;
+        }
+        
+        public void UpdateInstantaneousSpeedText(float instantaneousSpeed)
+        {
+            _instantaneousSpeedText.text = "Instantaneous speed: " + instantaneousSpeed;
+        }
+        
+        public void UpdateLaserShotsLimitText(int laserShotsLimit)
+        {
+            _laserShotsLimitText.text = "Laser shots limit: " + laserShotsLimit;
+        }
+        
+        public void UpdateTimeForLaserRecoverText(int timeInSeconds)
+        {
+            _timeForLaserRecoverText.text = "Time for laser recover: " + timeInSeconds + "s";
         }
 
         public void ShowGameOverPanel(int finalScore)

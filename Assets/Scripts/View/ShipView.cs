@@ -1,4 +1,5 @@
 using System.Collections;
+using Controller;
 using UnityEngine;
 
 namespace View
@@ -57,6 +58,7 @@ namespace View
             // _laserPrefab.transform.rotation = Quaternion.identity;
             // _laserPrefab.transform.right = transformNew.up;
             _laserPrefab.SetActive(true);
+            StartCoroutine(HideObjectAfterDelay(_laserPrefab));
         }
         
         private IEnumerator ReturnObjectAfterDelay(GameObject objectToReturn)
@@ -64,6 +66,14 @@ namespace View
             yield return new WaitForSeconds(4f);
             
             _poolView.GetPool().Release(objectToReturn);
+        }
+        
+        private static IEnumerator HideObjectAfterDelay(GameObject objectToHide)
+        {
+            yield return new WaitForSeconds(3f);
+            
+            objectToHide.SetActive(false);
+            ShipController.Instance.IsLaserActive = false;
         }
     }
 }

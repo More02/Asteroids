@@ -38,8 +38,9 @@ namespace Controller
         {
             if (collision.gameObject.CompareTag("Bullet"))
             {
-                Destroy(collision.gameObject);
+               // Destroy(collision.gameObject);
                 //Destroy(gameObject);
+                ShipController.Instance.gameObject.GetComponent<PoolView>().GetPool().Release(collision.gameObject);
                 _poolView.GetPool().Release(gameObject);
                 GameController.Instance.GetGameModel().AddScore(20);
             }

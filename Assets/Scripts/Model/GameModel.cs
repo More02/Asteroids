@@ -7,6 +7,8 @@ namespace Model
     {
         public int Score { get; private set; }
         public bool IsGameOver { get; private set; }
+
+        public bool IsKeyboardInputEnabled { get; set; } = true;
         // public List<AsteroidModel> _asteroids { get; set; }
         // public List<UfoModel> _ufos { get; set; }
         // public List<ShardModel> _shards { get; set; }

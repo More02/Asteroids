@@ -8,6 +8,7 @@ namespace Controller
     {
         private ShardModel _shardModel;
         [SerializeField] private EnemyView _enemyView;
+        [SerializeField] private PoolView _poolView;
 
         private void Start()
         {
@@ -36,15 +37,18 @@ namespace Controller
         {
             if (collision.gameObject.CompareTag("Bullet"))
             {
-                Destroy(collision.gameObject);
-                Destroy(gameObject);
+                ShipController.Instance.gameObject.GetComponent<PoolView>().GetPool().Release(collision.gameObject);
+                _poolView.GetPool().Release(gameObject);
+                // Destroy(collision.gameObject);
+                // Destroy(gameObject);
                 GameController.Instance.GetGameModel().AddScore(15);
             }
             
             if (collision.gameObject.CompareTag("Laser"))
             {
                // Destroy(collision.gameObject);
-                Destroy(gameObject);
+                //Destroy(gameObject);
+                _poolView.GetPool().Release(gameObject);
                 GameController.Instance.GetGameModel().AddScore(15);
             }
 
@@ -55,3 +59,26 @@ namespace Controller
         }
     }
 }
+
+
+// if (collision.gameObject.CompareTag("Bullet"))
+// {
+//     // Destroy(collision.gameObject);
+//     //Destroy(gameObject);
+//     ShipController.Instance.gameObject.GetComponent<PoolView>().GetPool().Release(collision.gameObject);
+//     _poolView.GetPool().Release(gameObject);
+//     GameController.Instance.GetGameModel().AddScore(20);
+// }
+//             
+// if (collision.gameObject.CompareTag("Laser"))
+// {
+//     //Destroy(collision.gameObject);
+//     //Destroy(gameObject);
+//     _poolView.GetPool().Release(gameObject);
+//     GameController.Instance.GetGameModel().AddScore(20);
+// }
+//
+// if (collision.gameObject.CompareTag("Ship"))
+// {
+//     ShipController.Instance.OnCollision();
+// }

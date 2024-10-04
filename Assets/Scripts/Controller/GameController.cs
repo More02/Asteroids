@@ -1,5 +1,3 @@
-using System;
-using System.Collections;
 using Model;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -13,12 +11,14 @@ namespace Controller
         private ShipModel _shipModel;
 
         public static GameController Instance;
+
+        [SerializeField] private GameView _gameView;
         
         private void OnEnable()
         {
             _gameModel.ScoreUpdated += ViewNewScore;
         }
-        
+
         private void OnDisable()
         {
             _gameModel.ScoreUpdated -= ViewNewScore;
@@ -32,7 +32,19 @@ namespace Controller
         
         private void Start()
         {
+            _shipModel = (ShipModel)ShipController.Instance.GetModel();
             GameView.Instance.HideGameOverPanel();
+
+            if (_shipModel is not null)
+            {
+                _gameView.UpdateScoreText(0);
+                _gameView.UpdateRotationText(_shipModel.Rotation);
+                _gameView.UpdateInstantaneousSpeedText(0);
+                _gameView.UpdateLaserShotsLimitText(_shipModel.LaserShotsLimit);
+                _gameView.UpdateTimeForLaserRecoverText(_shipModel.TimeForLaserRecover);
+            }
+            
+            
             //StartCoroutine(GameLoop());
         }
 
@@ -43,7 +55,7 @@ namespace Controller
 
         private void ViewNewScore()
         {
-            GameView.Instance.UpdateScore(_gameModel.Score);
+            GameView.Instance.UpdateScoreText(_gameModel.Score);
         }
         // private IEnumerator GameLoop()
         // {
@@ -56,6 +68,7 @@ namespace Controller
 
         public void EndGame()
         {
+            _gameModel.IsKeyboardInputEnabled = false;
             Time.timeScale = 0;
             _gameModel.EndGame();
             GameView.Instance.ShowGameOverPanel(_gameModel.Score);
