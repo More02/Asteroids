@@ -48,7 +48,7 @@ namespace Controller.Enemy
         {
             if (collision.gameObject.CompareTag("Bullet"))
             {
-                SpawnShard();
+                SpawnShard(transform.position);
                 ShipController.Instance.gameObject.GetComponent<PoolView>().GetPool().Release(collision.gameObject);
                 _poolView.GetPool().Release(gameObject);
                 GameController.Instance.GetGameModel().AddScore(10);
@@ -61,9 +61,9 @@ namespace Controller.Enemy
             }
         }
 
-        private void SpawnShard()
+        private void SpawnShard(Vector3 asteroidPosition)
         {
-            _shardsSpawner.SpawnEnemies();
+            _shardsSpawner.SpawnEnemies(asteroidPosition);
         }
     }
 }

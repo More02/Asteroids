@@ -19,40 +19,52 @@ namespace Controller.Enemy
                _screenBounds = _mainCamera!.ViewportToWorldPoint(new Vector3(1, 1, _mainCamera.transform.position.z));
                if (_isForSecondStageObjects) return;
                
-               StartCoroutine(SpawnEnemiesRoutine(_isForSecondStageObjects));
+               StartCoroutine(SpawnEnemiesRoutine(_isForSecondStageObjects, Vector3.zero));
           }
 
-          public void SpawnEnemies()
+          public void SpawnEnemies(Vector3 targetPosition)
           {
-               StartCoroutine(SpawnEnemiesRoutine(_isForSecondStageObjects));
+               StartCoroutine(SpawnEnemiesRoutine(_isForSecondStageObjects, targetPosition));
           }
           
-          private IEnumerator SpawnEnemiesRoutine(bool isMinQuantityNeeded)
+          private IEnumerator SpawnEnemiesRoutine(bool isForSecondStageObjects, Vector3 targetPosition)
           {
                var shipHeight = ShipController.Instance.gameObject.GetComponent<SpriteRenderer>().sprite.bounds.size.y * ShipController.Instance.transform.localScale;
-               if (isMinQuantityNeeded)
+               if (isForSecondStageObjects)
                {
-                    SpawnMethod(isMinQuantityNeeded, shipHeight);
+                    SpawnMethod(isForSecondStageObjects, shipHeight, targetPosition);
                     yield return null;
                }
                else
                {
                     while (true)
                     {
-                         SpawnMethod(isMinQuantityNeeded, shipHeight);
+                         SpawnMethod(isForSecondStageObjects, shipHeight, Vector3.zero);
                          yield return new WaitForSeconds(5f);
                     }
                }
           }
 
-          private void SpawnMethod(bool isMinQuantityNeeded, Vector3 shipHeight)
+          private void SpawnMethod(bool isForSecondStageObjects, Vector3 shipHeight, Vector3 targetPosition)
           {
-               _enemyQuantity = isMinQuantityNeeded ? Random.Range(2, 4) : Random.Range(3, 6);
-               
+               _enemyQuantity = isForSecondStageObjects ? Random.Range(2, 4) : Random.Range(3, 6);
+
                for (var i = 0; i < _enemyQuantity; i++)
                {
-                    var xPosRand = Random.Range(-_screenBounds.x, _screenBounds.x);
-                    var yPosRand = Random.Range(-_screenBounds.y + shipHeight.y*2, _screenBounds.y );
+                    float xPosRand;
+                    float yPosRand;
+                    
+                    if (isForSecondStageObjects)
+                    {
+                         xPosRand = targetPosition.x + Random.Range(-2, 2);
+                         yPosRand = targetPosition.y + Random.Range(-2, 2);
+                    }
+                    else
+                    {
+                         xPosRand = Random.Range(-_screenBounds.x, _screenBounds.x);
+                         yPosRand = Random.Range(-_screenBounds.y + shipHeight.y*2, _screenBounds.y );
+                    }
+                    
                     _enemyView.CreateEnemy(new Vector2(xPosRand, yPosRand), Quaternion.identity);
                }
           }

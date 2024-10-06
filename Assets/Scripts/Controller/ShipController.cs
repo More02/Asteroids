@@ -20,6 +20,8 @@ namespace Controller
         private Vector2 _currentPosition;
         private float _distance;
         private float _instantaneousSpeed;
+        
+        private Coroutine _currentRecoverLaserTimeForRecoverByTimeRoutine;
 
         public GameObject LaserButtonTips;
         public GameObject BulletButtonTips;
@@ -132,7 +134,13 @@ namespace Controller
             _laserView.ShowLaser();
             IsLaserActive = true;
             GameView.Instance.UpdateLaserShotsLimitText(_shipModel.LaserShotsLimit);
-            StartCoroutine(LaserView.RecoverLaserByTime());
+
+            if (_currentRecoverLaserTimeForRecoverByTimeRoutine is not null)
+            {
+                StopCoroutine(_currentRecoverLaserTimeForRecoverByTimeRoutine);
+            }
+            _currentRecoverLaserTimeForRecoverByTimeRoutine = StartCoroutine(LaserView.RecoverLaserTimeForRecoverByTime());
+            StartCoroutine(LaserView.RecoverLaserLimitByTime());
         }
 
         private void OnCollisionEnter2D(Collision2D collision)
