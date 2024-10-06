@@ -9,10 +9,10 @@ namespace Controller
     {
         [SerializeField] private ShipModel _shipModel;
         [SerializeField] private ShipView _shipView;
-        
+
         [SerializeField] private LaserView _laserView;
         [SerializeField] private BulletShooterView _bulletShooterView;
-        
+
         private const float Thrust = 9.8f;
         private Vector2 _velocity;
 
@@ -20,7 +20,7 @@ namespace Controller
         private Vector2 _currentPosition;
         private float _distance;
         private float _instantaneousSpeed;
-        
+
         private Coroutine _currentRecoverLaserTimeForRecoverByTimeRoutine;
 
         public GameObject LaserButtonTips;
@@ -68,7 +68,7 @@ namespace Controller
         {
             HandleMovement();
             CalculateInstantaneousSpeed();
-            
+
             if (!GameController.Instance.GetGameModel().IsKeyboardInputEnabled) return;
             if (IsLaserActive) return;
 
@@ -104,7 +104,7 @@ namespace Controller
             {
                 _shipModel.Rotation *= Quaternion.Euler(0f, 0f, _shipModel.TurnSpeed * -horizontal * Time.deltaTime);
             }
-            
+
             GameView.Instance.UpdateRotationText(_shipModel.Rotation.eulerAngles.z);
         }
 
@@ -127,7 +127,7 @@ namespace Controller
         private void FireWithLaser()
         {
             if (_shipModel.LaserShotsLimit == 0) return;
-            
+
             LaserButtonTips.GetComponent<CanvasGroup>().alpha = 0.1f;
             BulletButtonTips.GetComponent<CanvasGroup>().alpha = 0.1f;
             _shipModel.UseLaser();
@@ -139,6 +139,7 @@ namespace Controller
             {
                 StopCoroutine(_currentRecoverLaserTimeForRecoverByTimeRoutine);
             }
+
             _currentRecoverLaserTimeForRecoverByTimeRoutine = StartCoroutine(LaserView.RecoverLaserTimeForRecoverByTime());
             StartCoroutine(LaserView.RecoverLaserLimitByTime());
         }
@@ -146,7 +147,7 @@ namespace Controller
         private void OnCollisionEnter2D(Collision2D collision)
         {
             if ((collision.gameObject.CompareTag("Bullet")) || (collision.gameObject.CompareTag("Laser"))) return;
-            
+
             GameController.Instance.EndGame(collision.contacts[0].point);
         }
     }
